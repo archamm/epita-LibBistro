@@ -67,15 +67,16 @@ namespace bistro
         BigNum(std::istream& in, const Base& b)
         {
             base_ = b.get_base_num();
+            is_positive_ = 1;
             std::string line;
             getline(in, line);
-            if (line.length() == 0 || !isdigit(line[0]))
+            if (line.length() == 0)
                 throw std::length_error("le in construsctor");
             do
             {
-                for(size_t i = 0; i < line.length() && b.is_digit(line[0]); ++i)
+                for(ssize_t i = line.length() - 1 ; i >= 0 && b.is_digit(line[0]); --i)
                 {
-                    number_.push_back(b.get_char_value(i));
+                    number_.push_back(b.get_char_value(line[i]));
                 }
             }
             while (getline(in, line));
