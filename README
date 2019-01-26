@@ -1,0 +1,7 @@
+Build instruction :
+    make
+Binary Usage:
+    Usage: ./libbistro <file>
+
+This is a library for integer arithmetic computation, in any base, with arbitrary precision
+(as many digits as necessary).
