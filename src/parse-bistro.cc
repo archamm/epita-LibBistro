@@ -134,7 +134,7 @@
 
 
 namespace yy {
-#line 138 "parse-bistro.cc" // lalr1.cc:512
+#line 138 "src/parse-bistro.cc" // lalr1.cc:512
 
   /// Build a parser object.
   parser::parser (bistro::parser::ParseDriver& p_yyarg)
@@ -533,95 +533,95 @@ namespace yy {
           switch (yyn)
             {
   case 2:
-#line 83 "parse-bistro.yy" // lalr1.cc:906
+#line 83 "src/parse-bistro.yy" // lalr1.cc:906
     { p.set_ast(yystack_[0].value.as< node_t > ()); }
-#line 539 "parse-bistro.cc" // lalr1.cc:906
+#line 539 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 3:
-#line 88 "parse-bistro.yy" // lalr1.cc:906
+#line 88 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = yystack_[0].value.as< node_t > (); }
-#line 545 "parse-bistro.cc" // lalr1.cc:906
+#line 545 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 4:
-#line 90 "parse-bistro.yy" // lalr1.cc:906
+#line 90 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = p.get_factory()(yystack_[2].value.as< node_t > (), yystack_[0].value.as< node_t > (), bistro::OpType::PLUS); }
-#line 551 "parse-bistro.cc" // lalr1.cc:906
+#line 551 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 5:
-#line 92 "parse-bistro.yy" // lalr1.cc:906
+#line 92 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = p.get_factory()(yystack_[2].value.as< node_t > (), yystack_[0].value.as< node_t > (), bistro::OpType::MINUS); }
-#line 557 "parse-bistro.cc" // lalr1.cc:906
+#line 557 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 6:
-#line 97 "parse-bistro.yy" // lalr1.cc:906
+#line 97 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = yystack_[0].value.as< node_t > (); }
-#line 563 "parse-bistro.cc" // lalr1.cc:906
+#line 563 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 7:
-#line 99 "parse-bistro.yy" // lalr1.cc:906
+#line 99 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = p.get_factory()(yystack_[2].value.as< node_t > (), yystack_[0].value.as< node_t > (), bistro::OpType::TIMES); }
-#line 569 "parse-bistro.cc" // lalr1.cc:906
+#line 569 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 8:
-#line 101 "parse-bistro.yy" // lalr1.cc:906
+#line 101 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = p.get_factory()(yystack_[2].value.as< node_t > (), yystack_[0].value.as< node_t > (), bistro::OpType::DIVIDE); }
-#line 575 "parse-bistro.cc" // lalr1.cc:906
+#line 575 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 9:
-#line 103 "parse-bistro.yy" // lalr1.cc:906
+#line 103 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = p.get_factory()(yystack_[2].value.as< node_t > (), yystack_[0].value.as< node_t > (), bistro::OpType::MODULO); }
-#line 581 "parse-bistro.cc" // lalr1.cc:906
+#line 581 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 10:
-#line 108 "parse-bistro.yy" // lalr1.cc:906
+#line 108 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = yystack_[0].value.as< node_t > (); }
-#line 587 "parse-bistro.cc" // lalr1.cc:906
+#line 587 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 11:
-#line 110 "parse-bistro.yy" // lalr1.cc:906
+#line 110 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = p.get_factory()(yystack_[2].value.as< node_t > (), yystack_[0].value.as< node_t > (), bistro::OpType::POWER); }
-#line 593 "parse-bistro.cc" // lalr1.cc:906
+#line 593 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 12:
-#line 115 "parse-bistro.yy" // lalr1.cc:906
+#line 115 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = p.get_factory()(yystack_[0].value.as< std::shared_ptr<num_t> > ()); }
-#line 599 "parse-bistro.cc" // lalr1.cc:906
+#line 599 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 13:
-#line 117 "parse-bistro.yy" // lalr1.cc:906
+#line 117 "src/parse-bistro.yy" // lalr1.cc:906
     { yylhs.value.as< node_t > () = yystack_[1].value.as< node_t > (); }
-#line 605 "parse-bistro.cc" // lalr1.cc:906
+#line 605 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 14:
-#line 119 "parse-bistro.yy" // lalr1.cc:906
+#line 119 "src/parse-bistro.yy" // lalr1.cc:906
     {
     yylhs.value.as< node_t > () = p.get_factory()(yystack_[0].value.as< node_t > (), bistro::OpType::MINUS);
   }
-#line 613 "parse-bistro.cc" // lalr1.cc:906
+#line 613 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
   case 15:
-#line 123 "parse-bistro.yy" // lalr1.cc:906
+#line 123 "src/parse-bistro.yy" // lalr1.cc:906
     {
     yylhs.value.as< node_t > () = p.get_factory()(yystack_[0].value.as< node_t > (), bistro::OpType::PLUS);
   }
-#line 621 "parse-bistro.cc" // lalr1.cc:906
+#line 621 "src/parse-bistro.cc" // lalr1.cc:906
     break;
 
 
-#line 625 "parse-bistro.cc" // lalr1.cc:906
+#line 625 "src/parse-bistro.cc" // lalr1.cc:906
             default:
               break;
             }
@@ -915,8 +915,8 @@ namespace yy {
 
 
 } // yy
-#line 919 "parse-bistro.cc" // lalr1.cc:1217
-#line 128 "parse-bistro.yy" // lalr1.cc:1218
+#line 919 "src/parse-bistro.cc" // lalr1.cc:1217
+#line 128 "src/parse-bistro.yy" // lalr1.cc:1218
 
 void yy::parser::error(const location_type& l, const std::string& m)
 {

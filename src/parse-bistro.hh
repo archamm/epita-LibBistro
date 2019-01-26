@@ -32,7 +32,7 @@
 
 
 /**
- ** \file parse-bistro.hh
+ ** \file src/parse-bistro.hh
  ** Define the yy::parser class.
  */
 
@@ -41,22 +41,21 @@
 // Undocumented macros, especially those whose name start with YY_,
 // are private implementation details.  Do not rely on them.
 
-#ifndef YY_YY_PARSE_BISTRO_HH_INCLUDED
-# define YY_YY_PARSE_BISTRO_HH_INCLUDED
+#ifndef YY_YY_SRC_PARSE_BISTRO_HH_INCLUDED
+# define YY_YY_SRC_PARSE_BISTRO_HH_INCLUDED
 // //                    "%code requires" blocks.
-#line 28 "parse-bistro.yy" // lalr1.cc:403
+#line 28 "src/parse-bistro.yy" // lalr1.cc:403
 
 #include <memory>
 #include "base.hh"
 #include "bignum.hh"
 #include "parse-driver.hh"
 #include "ast-node.hh"
-#include "base.hh"
 using num_t = bistro::parser::ParseDriver::num_t;
 using base_t = bistro::parser::ParseDriver::base_t;
 using node_t = std::shared_ptr<bistro::ASTNode<num_t, base_t>>;
 
-#line 59 "parse-bistro.hh" // lalr1.cc:403
+#line 59 "src/parse-bistro.hh" // lalr1.cc:403
 
 
 # include <cstdlib> // std::abort
@@ -150,7 +149,7 @@ using node_t = std::shared_ptr<bistro::ASTNode<num_t, base_t>>;
 
 
 namespace yy {
-#line 153 "parse-bistro.hh" // lalr1.cc:403
+#line 153 "src/parse-bistro.hh" // lalr1.cc:403
 
   /// A stack with random access from its top.
   template <typename T, typename S = std::vector<T> >
@@ -1215,11 +1214,11 @@ namespace yy {
 
 
 } // yy
-#line 1218 "parse-bistro.hh" // lalr1.cc:403
+#line 1218 "src/parse-bistro.hh" // lalr1.cc:403
 
 
 // //                    "%code provides" blocks.
-#line 40 "parse-bistro.yy" // lalr1.cc:403
+#line 40 "src/parse-bistro.yy" // lalr1.cc:403
 
 #define YY_DECL                                           \
   yy::parser::symbol_type yylex(bistro::parser::ParseDriver& p)
@@ -1227,7 +1226,7 @@ namespace yy {
 YY_DECL;
 extern FILE* yyin;
 
-#line 1230 "parse-bistro.hh" // lalr1.cc:403
+#line 1230 "src/parse-bistro.hh" // lalr1.cc:403
 
 
-#endif // !YY_YY_PARSE_BISTRO_HH_INCLUDED
+#endif // !YY_YY_SRC_PARSE_BISTRO_HH_INCLUDED
