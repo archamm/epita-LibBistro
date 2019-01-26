@@ -36,7 +36,7 @@ namespace bistro
         using self_ptr_t = std::shared_ptr<BigNum>;
 
         /// Shared pointer to const self.
-        using const_self_ptr_t = const std::shared_ptr<BigNum>;
+        using const_self_ptr_t = std::shared_ptr<const BigNum>;
 
         /// Type of the digit container.
         using digits_t = std::vector<T>;
@@ -177,9 +177,9 @@ namespace bistro
         {
             if (!is_positive())
                 out << '-';
-            for (size_t i = 0; i < number_.size(); i++)
+            for (ssize_t i = number_.size() - 1; i >= 0; i--)
             {
-                out << b.get_char_value(number_.at(i));
+                out << b.get_digit_representation(number_.at(i));
             }
             return out;
         }
@@ -220,7 +220,54 @@ namespace bistro
         ** expressed in the same base.
         **/
 
-        self_t operator+(const self_t& other) const;
+        self_t operator+(const self_t& other) const
+        {
+            if (!this->is_positive() && !other.is_positive())
+            {
+                
+            }
+            if (base_ != other.base_)
+            {
+                throw std::invalid_argument("not same base");
+            }
+            
+            int retenu = 0;
+            self_t res (base_);
+            if (!this->is_positive() && !other.is_positive())
+                res.set_positive(false);
+            size_t i = 0;
+            for (; i < other.number_.size() && i < number_.size(); i++)
+            {
+                size_t add = number_.at(i) + other.number_.at(i) + retenu;
+                if(add > base_)
+                {
+                    retenu = 1;
+                    res.set_digit(i, add - base_);
+                }
+                else
+                {
+                    retenu = 0;
+                    res.set_digit(i, add) ;
+                }
+            }
+            
+            if (i >= other.number_.size() && i < number_.size())
+                for (; i < number_.size(); i++)
+                {
+                    res.set_digit(i, number_.at(i + retenu));
+                    retenu = 0;
+                }
+            else if (i < other.number_.size() && i >= number_.size())
+                for (; i < other.number_.size(); i++)
+                {
+                    res.set_digit(i, other.number_.at(i) + retenu);
+                    retenu = 0;
+                }
+            else if (i >= other.number_.size() && i >= number_.size() && retenu)
+                res.set_digit(i,  retenu);
+
+            return res;
+        }
 
         self_t operator-(const self_t& other) const;
 
