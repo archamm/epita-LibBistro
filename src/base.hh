@@ -58,7 +58,7 @@ namespace bistro
         void add_digit(char_t repr)
         {
             if (!is_digit(repr))
-                repr_.insert(repr, repr_.size());
+                repr_.push_back(repr);
             throw std::invalid_argument("Already in the list");
         }
 
@@ -97,7 +97,7 @@ namespace bistro
         value_t get_char_value(char_t r) const
         {
             //auto it = std::find(repr_.begin(), repr_.end(), r);
-            for (size_t i = 0; i < repr_.size(); i++)
+            for (value_t i = 0; i < repr_.size(); i++)
             {
                 if (repr_.at(i) == r)
                     return i;
