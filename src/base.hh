@@ -2,6 +2,8 @@
 
 #include <cstdint>
 #include <initializer_list>
+#include <vector>
+#include <map>
 
 namespace bistro
 {
@@ -34,17 +36,18 @@ namespace bistro
         /// Construct a base from an initializer list.
         Base(std::initializer_list<char_t> list)
         {
-            /* FIXME */
-            throw "Not implemented";
+            value_t i = 0;
+            for (auto it = list.begin(); it != list.end(); it++)
+                repr_.emplace(*it, i++);
+            base_ = repr_.size();
         }
-
+       
+        
         /// Get the numerical base represented.
         size_t get_base_num() const
         {
-            /* FIXME */
-            throw "Not implemented";
+            return base_;
         }
-
         /**
         ** Add a the representation of a digit.
         **
@@ -56,15 +59,15 @@ namespace bistro
         **/
         void add_digit(char_t repr)
         {
-            /* FIXME */
-            throw "Not implemented";
+            if (!is_digit(repr))
+                repr_.insert(repr, repr_.size());
+            throw std::invalid_argument("Already in the list");
         }
 
         /// Check wether there is a match for the character representation \a c.
         bool is_digit(char_t c) const
         {
-            /* FIXME */
-            throw "Not implemented";
+            return repr_.find(c) != repr_.end();
         }
 
         /**
@@ -73,8 +76,7 @@ namespace bistro
         **/
         static bool is_operator(char_t c)
         {
-            /* FIXME */
-            throw "Not implemented";
+            return c == '+' || c == '*' || c == '-' || c == '%' || c == '/';
         }
 
         /**
@@ -84,8 +86,11 @@ namespace bistro
         **/
         char_t get_digit_representation(value_t i) const
         {
-            /* FIXME */
-            throw "Not implemented";
+            for (auto it = repr_.begin(); it != repr_.end(); it++)
+                if (it->second == i)
+                    return it->first;
+            throw std::out_of_range("oor in get_digit_representation");
+            
         }
 
         /**
@@ -95,11 +100,16 @@ namespace bistro
         **/
         value_t get_char_value(char_t r) const
         {
-            /* FIXME */
-            throw "Not implemented";
+            auto it = repr_.find(r);
+            if (it == repr_.end())
+                throw std::out_of_range("oor in get_char_value");
+            return it->second;
         }
-
+    
+        
     private:
+        std::map<char_t, value_t> repr_;
+        value_t base_;
     };
 
 }
