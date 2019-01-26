@@ -1,18 +1,20 @@
-CC = g++
-CFLAGS = -Wall -Wextra -Werror -pedantic -std=c++17
+CXX = g++
+CXXFLAGS = -Wall -Wextra -pedantic -std=c++17
 EXEC_NAME = binLibBistro
-OBJ_FILES = src/main.o
+OBJ_FILES = src/scan-bistro.o src/parse-bistro.o src/parse-driver.o src/main.o 
 
 all : $(EXEC_NAME)
 
 clean :
-	rm $(EXEC_NAME) $(OBJ_FILES)
+	$(RM) $(EXEC_NAME) $(OBJ_FILES)
 
 $(EXEC_NAME) : $(OBJ_FILES)
-	$(CC) -o $(EXEC_NAME) $(OBJ_FILES)
 
-%.o: %.cc
-	$(CC) $(CFLAGS) -o $@ -c $<
+
+%.cc: %.ll
+	flex -f -o $@ -c $^
+%.cc %.hh: %.yy
+	bison $^ -o $*.cc --defines=$*.hh	
 
 
 
