@@ -1,5 +1,9 @@
 [X] BASE
+[X] Makefile
 [X] BigNum Essencials
-[] ASTNode
-[] Try usage of binary
+[X] ASTNode
+[X] Try usage of binary
 [] Operations
+    [X] +
+    [] -
+    [X] *
