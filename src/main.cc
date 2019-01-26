@@ -1,6 +1,12 @@
 #include <iostream>
+#include "ast-factory.hh"
+#include "parse-driver.hh"
+#include "bignum.hh"
+#include "base.hh"
 
-int main(int argc, char* argv[])
+
+
+int main(int argc, char * argv[])
 {
     if (argc < 2)
     {
