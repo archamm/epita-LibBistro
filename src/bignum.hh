@@ -223,9 +223,11 @@ namespace bistro
 
         self_t operator+(const self_t& other) const
         {
+            self_t res (base_);
+
             if (!this->is_positive() && !other.is_positive())
             {
-                
+                res.set_positive(0);
             }
             if (base_ != other.base_)
             {
@@ -233,7 +235,6 @@ namespace bistro
             }
             
             int retenu = 0;
-            self_t res (base_);
             if (!this->is_positive() && !other.is_positive())
                 res.set_positive(false);
             size_t i = 0;
@@ -270,9 +271,56 @@ namespace bistro
             return res;
         }
 
-        self_t operator-(const self_t& other) const;
+        self_t operator-(const self_t& other) const
+        {
+            throw "..";
+        }
 
-        self_t operator*(const self_t& other) const;
+        self_t operator*(const self_t& other) const
+        {
+            size_t size_self = number_.size();
+            size_t size_other = other.number_.size();
+            self_t result (base_);
+            result.number_.resize(size_self + size_other);
+
+
+            if (size_self == 0 || size_other == 0)
+                return result;
+
+
+            size_t index_self = 0;
+            size_t index_other = 0;
+            
+            for (size_t i = 0; i < size_self; i++)
+            {
+                size_t carry = 0;
+                size_t n1 = number_.at(i);
+                
+                index_other = 0;
+                
+                for (size_t j = 0; j < size_other; j++)
+                {
+                    size_t n2 = other.number_.at(j);
+                
+                    size_t sum = n1*n2 + result.number_.at(index_self + index_other) + carry;
+                    
+                    carry = sum/base_;
+                    result.set_digit(index_self + index_other, sum % base_);
+                    
+                    index_other++;
+                }
+                
+                if (carry > 0)
+                    result.number_.at(index_self + index_other) += carry;
+
+                index_self++;
+            }
+            
+            
+            
+            return result;
+        }
+        
 
         /// \throw std::overflow_error for a division by 0.
         self_t operator/(const self_t& other) const;
