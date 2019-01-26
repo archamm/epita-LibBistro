@@ -36,9 +36,7 @@ namespace bistro
         /// Construct a base from an initializer list.
         Base(std::initializer_list<char_t> list)
         {
-            value_t i = 0;
-            for (auto it = list.begin(); it != list.end(); it++)
-                repr_.emplace(*it, i++);
+            repr_.assign(list.begin(), list.end());
             base_ = repr_.size();
         }
        
@@ -67,7 +65,8 @@ namespace bistro
         /// Check wether there is a match for the character representation \a c.
         bool is_digit(char_t c) const
         {
-            return repr_.find(c) != repr_.end();
+            return std::find(repr_.begin(), repr_.end(), c) != repr_.end();
+            
         }
 
         /**
@@ -86,10 +85,7 @@ namespace bistro
         **/
         char_t get_digit_representation(value_t i) const
         {
-            for (auto it = repr_.begin(); it != repr_.end(); it++)
-                if (it->second == i)
-                    return it->first;
-            throw std::out_of_range("oor in get_digit_representation");
+            return repr_.at(i);
             
         }
 
@@ -100,15 +96,19 @@ namespace bistro
         **/
         value_t get_char_value(char_t r) const
         {
-            auto it = repr_.find(r);
-            if (it == repr_.end())
+            //auto it = std::find(repr_.begin(), repr_.end(), r);
+            for (size_t i = 0; i < repr_.size(); i++)
+            {
+                if (repr_.at(i) == r)
+                    return i;
+            }
+            //if (it == repr_.end())
                 throw std::out_of_range("oor in get_char_value");
-            return it->second;
         }
     
         
     private:
-        std::map<char_t, value_t> repr_;
+        std::vector<char_t> repr_;
         value_t base_;
     };
 
