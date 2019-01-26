@@ -6,6 +6,7 @@
 #include <stdexcept> // domain_error
 #include <utility> // pair
 
+
 #include "ast-node.hh"
 
 namespace bistro
@@ -19,7 +20,7 @@ namespace bistro
     ** (OpType, defined in ast-node header), or with a BigNum.
     **/
     template <typename BigNum, typename Base>
-    class ASTFactory
+    class ASTFactory 
     {
     public:
         /// BigNum.
@@ -27,7 +28,8 @@ namespace bistro
         /// Base.
         using base_t = Base;
         /// Pointer to AST node.
-        using node_t = /* FIXME */;
+        using node_t =  std::shared_ptr<ASTNode<BigNum, Base>>;
+        
         ASTFactory() = default;
 
         node_t operator()(const node_t& lhs, OpType op) const
@@ -47,5 +49,8 @@ namespace bistro
             /* FIXME */
             throw "Not implemented";
         }
+private:
+        
     };
+    class NumberNode : public AST
 }
