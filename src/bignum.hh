@@ -4,6 +4,11 @@
 #include <fstream>  // ifstream
 #include <iostream> // ostream
 #include <memory>   // shared_ptr
+#include "base.hh"
+#include <vector>
+#include <ctype.h>
+#include <stdexcept>
+
 
 namespace bistro
 {
@@ -22,22 +27,22 @@ namespace bistro
     {
     public:
         /// Type of a single digit.
-        using digit_t = /* FIXME */;
+        using digit_t = T;
 
         /// This class.
-        using self_t = /* FIXME */;
+        using self_t = BigNum;
 
         /// Shared pointer to this class.
-        using self_ptr_t = /* FIXME */;
+        using self_ptr_t = std::shared_ptr<BigNum>;
 
         /// Shared pointer to const self.
-        using const_self_ptr_t = /* FIXME */;
+        using const_self_ptr_t = const std::shared_ptr<BigNum>;
 
         /// Type of the digit container.
-        using digits_t = /* FIXME */;
+        using digits_t = std::vector<T>;
 
         /// Type used as index.
-        using index_t = /* FIXME */;
+        using index_t = size_t;
 
         /**
         ** Basic constructor, for empty number.
@@ -45,7 +50,10 @@ namespace bistro
         ** \a base is the numeric value of the base in which the number will be
         ** represented.
         **/
-        BigNum(std::size_t base);
+        BigNum(std::size_t base) : base_(base),
+        is_positive_(1)
+        {
+        }
 
         /**
         ** Construct the number from a file stream.
@@ -56,7 +64,23 @@ namespace bistro
         ** \throw std::length_error if the stream doesn't start with a number.
         **/
         template <typename Base>
-        BigNum(std::istream& in, const Base& b);
+        BigNum(std::istream& in, const Base& b)
+        {
+            base_ = b.get_base_num();
+            std::string line;
+            getline(in, line);
+            if (line.length() == 0 || !isdigit(line[0]))
+                throw std::length_error("le in construsctor");
+            do
+            {
+                for(size_t i = 0; i < line.length() && b.is_digit(line[0]); ++i)
+                {
+                    number_.push_back(b.get_char_value(i));
+                }
+            }
+            while (getline(in, line));
+        }
+        
 
         /// Disable copy constructor.
         BigNum(const BigNum&) = delete;
@@ -71,10 +95,20 @@ namespace bistro
         BigNum& operator=(BigNum&&) = default;
 
         /// Clone the bignum into a new instance.
-        self_t clone() const;
+        self_t clone() const
+        {
+            BigNum clone;
+            clone.is_positive_ = is_positive_;
+            clone.number_ = number_;
+            clone.base_ = base_;
+            return clone;
+        }
 
         /// Get the number of digits in the base representation of the number.
-        index_t get_num_digits() const;
+        index_t get_num_digits() const
+        {
+            return number_.size();
+        }
 
         /**
         ** Get the \a i th digit in the base representation of the number, 0
@@ -83,7 +117,10 @@ namespace bistro
         ** \throw std::out_of_range exception if the digit asked is over the
         ** number of digits in the BigNum.
         **/
-        digit_t get_digit(index_t i) const;
+        digit_t get_digit(index_t i) const
+        {
+            return number_.at(i);
+        }
 
         /**
         ** Set the \a i th digit to the value \a d, 0 being the least
@@ -97,7 +134,19 @@ namespace bistro
         **
         ** \throw std::invalid_argument if \a d is bigger than the base.
         **/
-        void set_digit(index_t i, digit_t d);
+        void set_digit(index_t i, digit_t d)
+        {
+            if (d > base_)
+                throw std::invalid_argument("ia in set_digit");
+            if (i < number_.size())
+            {
+                number_.at(i) = d;
+                return;
+            }
+            for (size_t y = number_.size(); y < i; ++y)
+                number_.push_back(0);
+            number_.push_back(d);
+        }
 
         /**
         ** Return the sign of the BigNum.
@@ -105,10 +154,16 @@ namespace bistro
         ** For the case of 0, the result of this function is undefined.
         ** However, when printing, there must not be a minus sign before the 0.
         **/
-        bool is_positive() const;
+        bool is_positive() const
+        {
+            return is_positive_;
+        }
 
         /// Set the sign of the BigNum.
-        void set_positive(bool p);
+        void set_positive(bool p)
+        {
+            is_positive_ = p;
+        }
 
         /**
         ** Output the number in the stream \a out, in the representation of \a b.
@@ -118,15 +173,46 @@ namespace bistro
         ** \throw std::invalid_argument if the size of \a b is not the base of \a this.
         **/
         template <typename Base>
-        std::ostream& print(std::ostream& out, const Base& b) const;
+        std::ostream& print(std::ostream& out, const Base& b) const
+        {
+            if (!is_positive())
+                out << '-';
+            for (size_t i = 0; i < number_.size(); i++)
+            {
+                out << b.get_char_value(number_.at(i));
+            }
+            return out;
+        }
 
         /// Output the number in polish notation (i.e. -2 becomes "- 0 2").
         template <typename Base>
-        std::ostream& print_pol(std::ostream& out, const Base& b) const;
+        std::ostream& print_pol(std::ostream& out, const Base& b) const
+        {
+            if (!is_positive())
+                out << "- 0 ";
+            
+            for (size_t i = 0; i < number_.size(); i++)
+            {
+                out << b.get_char_value(number_.at(i));
+            }
+            return out;
+            
+        }
 
         /// Output the number in reverse polish notation (i.e. -2 becomes "0 2 -").
         template <typename Base>
-        std::ostream& print_rpol(std::ostream& out, const Base& b) const;
+        std::ostream& print_rpol(std::ostream& out, const Base& b) const
+        {
+            if (!is_positive())
+                out << '0';
+            for (size_t i = 0; i < number_.size(); i++)
+            {
+                out << b.get_char_value(number_.at(i));
+            }
+            if (!is_positive())
+                out << '-';
+            return out;
+        }
 
         ///@{
         /**
@@ -181,6 +267,11 @@ namespace bistro
         explicit operator bool() const;
 
     private:
+        
+        std::vector<digit_t> number_;
+        std::size_t base_;
+        bool is_positive_;
+        
     };
 
 }
