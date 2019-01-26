@@ -1,6 +1,8 @@
 #pragma once
 
 #include <ostream>
+//#include "base.hh"
+//#include "bignum.hh"
 
 namespace bistro
 {
@@ -30,12 +32,13 @@ namespace bistro
         using base_t = Base;
 
         /// Shared_ptr to a BigNum.
-        using num_t = /* FIXME */;
+        using num_t = std::shared_ptr<BigNum>;
 
         using self_t = ASTNode;
+        
         /// Type of a node in the AST.
         /// Keep in mind you should be able to add/delete those.
-        using node_t = /* FIXME */;
+        using node_t = std::shared_ptr<ASTNode>;
 
         virtual ~ASTNode();
 
@@ -60,4 +63,5 @@ namespace bistro
         /// Evaluate the tree and return a shared_pointer to the result.
         virtual num_t eval() const = 0;
     };
+    
 }
