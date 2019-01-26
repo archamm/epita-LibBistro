@@ -8,14 +8,29 @@
 
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
+#include "../src/base.hh"
+#include "../src/bignum.hh"
 
-unsigned int Factorial( unsigned int number ) {
-    return number <= 1 ? number : Factorial(number-1)*number;
-}
+TEST_CASE(  "Check Base")
+{
+    using value_t = uint8_t;
+    using bignum_t = bistro::BigNum<value_t>;
+    
+    using base_t = bistro::Base<value_t>;
+    std::initializer_list<int> list{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    bistro::Base A(list);
+    
+    auto b = bignum_t(10);
+    b.set_digit(2, 6);
+    REQUIRE( b.get_digit.at(0) == 1)
+    REQUIRE( b.get_digit.at(1) == 1)
+    REQUIRE( b.get_digit.at(2) == 6)
 
-TEST_CASE( "Factorials are computed", "[factorial]" ) {
-    REQUIRE( Factorial(1) == 1 );
-    REQUIRE( Factorial(2) == 2 );
-    REQUIRE( Factorial(3) == 6 );
-    REQUIRE( Factorial(10) == 3628800 );
+    
+
+    std::cout << '\n';
+    auto b2 = bignum_t(10);
+    b2.set_digit(2, 6);
+    b2.print(std::cout, A);
+    std::cout << '\n';
 }
