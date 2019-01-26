@@ -8,6 +8,9 @@
 
 
 #include "ast-node.hh"
+#include "ast-node-UnOp.hh"
+#include "ast-node-Num.hh"
+#include "ast-node-BinOp.hh"
 
 namespace bistro
 {
@@ -34,23 +37,19 @@ namespace bistro
 
         node_t operator()(const node_t& lhs, OpType op) const
         {
-            /* FIXME */
-            throw "Not implemented";
+            return std::make_shared<UnOpNode<BigNum, Base>>(lhs, op);
         }
 
         node_t operator()(const node_t& lhs, const node_t& rhs, OpType op) const
         {
-            /* FIXME */
-            throw "Not implemented";
+            return std::make_shared<BinOpNode<BigNum, Base>>(lhs, rhs, op);
         }
 
         node_t operator()(const std::shared_ptr<num_t>& num) const
         {
-            /* FIXME */
-            throw "Not implemented";
+            return std::make_shared<NumberNode<BigNum, Base>>(num);
         }
 private:
         
     };
-    class NumberNode : public AST
 }
