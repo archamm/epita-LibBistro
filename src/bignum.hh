@@ -214,6 +214,7 @@ namespace bistro
                 out << '-';
             return out;
         }
+        
 
         ///@{
         /**
@@ -271,11 +272,8 @@ namespace bistro
             return res;
         }
 
-        self_t operator-(const self_t& other) const
-        {
-            throw "..";
-        }
-
+        self_t operator-(const self_t& other) const;
+        
         self_t operator*(const self_t& other) const
         {
             size_t size_self = number_.size();
