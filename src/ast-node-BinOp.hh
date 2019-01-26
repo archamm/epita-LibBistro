@@ -18,18 +18,18 @@ namespace bistro
     class BinOpNode : public ASTNode <BigNum, Base>
     {
     public:
-        
+
         /// The BigNum class used to represent the numbers.
         using bignum_t = BigNum;
-        
+
         /// The Base class.
         using base_t = Base;
-        
+
         /// Shared_ptr to a BigNum.
         using num_t = std::shared_ptr<BigNum>;
-        
+
         using self_t = BinOpNode;
-        
+
         using node_t = std::shared_ptr<ASTNode<BigNum, Base>>;
 
         BinOpNode(const node_t left, const node_t right, OpType op)
@@ -56,9 +56,9 @@ namespace bistro
             std::cout << ')';
 
             return out;
-            
+
         }
-        
+
         /// Print the tree in polish notation, e.g. "+ 2 3".
         std::ostream&
         print_pol(std::ostream& out, const base_t& b) const
@@ -74,9 +74,9 @@ namespace bistro
             right_node_->print_pol(out, b);
             right_node_->print_pol(out, b);
             return out;
-            
+
         }
-        
+
         /// Print the tree in reverse polish notation, e.g. "2 3 +".
         std::ostream&
         print_rpol(std::ostream& out, const base_t& b) const
@@ -95,11 +95,11 @@ namespace bistro
                 out << '/';
             if (op_ == OpType::TIMES)
                 out << '*';
-            
+
             return out;
-            
+
         }
-        
+
         /// Evaluate the tree and return a shared_pointer to the result.
         num_t eval() const
         {
@@ -108,11 +108,11 @@ namespace bistro
             return std::make_shared<BigNum>(*(left_eval.get()) + *(right_eval.get()));
         }
     private:
-        
+
         node_t left_node_;
         node_t right_node_;
         OpType op_;
     };
-    
-};
+
+}
 
