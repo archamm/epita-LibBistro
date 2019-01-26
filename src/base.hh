@@ -4,6 +4,7 @@
 #include <initializer_list>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 namespace bistro
 {
@@ -31,16 +32,15 @@ namespace bistro
         using value_t = Value;
 
         /// Default constructor.
-        Base();
-
+        Base() = default;
         /// Construct a base from an initializer list.
         Base(std::initializer_list<char_t> list)
         {
             repr_.assign(list.begin(), list.end());
             base_ = repr_.size();
         }
-       
-        
+
+
         /// Get the numerical base represented.
         size_t get_base_num() const
         {
@@ -66,7 +66,7 @@ namespace bistro
         bool is_digit(char_t c) const
         {
             return std::find(repr_.begin(), repr_.end(), c) != repr_.end();
-            
+
         }
 
         /**
@@ -86,7 +86,7 @@ namespace bistro
         char_t get_digit_representation(value_t i) const
         {
             return repr_.at(i);
-            
+
         }
 
         /**
@@ -105,8 +105,8 @@ namespace bistro
             //if (it == repr_.end())
                 throw std::out_of_range("oor in get_char_value");
         }
-    
-        
+
+
     private:
         std::vector<char_t> repr_;
         value_t base_;
