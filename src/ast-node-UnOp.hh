@@ -33,31 +33,38 @@ namespace bistro
         /// Keep in mind you should be able to add/delete those.
         using node_t = std::shared_ptr<ASTNode<BigNum, Base>>;
         
-        
+        UnOpNode(const node_t node, OpType op)
+            :node_(node)
+            ,op_(op)
+        {
+        }
         /// Print the tree in infix notation, e.g. "(2+3)".
-        virtual std::ostream&
-        print_infix(std::ostream& out, const base_t& b)
+        
+        std::ostream&
+        print_infix(std::ostream& out, const base_t& b) const override
         {
             if (op_ == OpType::MINUS)
                 out << '-';
-            num_->print(out, b);
+            node_->print_infix(out, b);
             return out;
         }
         
         /// Print the tree in polish notation, e.g. "+ 2 3".
-        virtual std::ostream&
-        print_pol(std::ostream&, const base_t&) const
+        std::ostream&
+        print_pol(std::ostream& out, const base_t& b) const override
         {
             if (op_ == OpType::MINUS)
                 out << '-';
-            num_->print(out, b);
-            return out;        }
+            node_->print_pol(out, b);
+            return out;
+            
+        }
         
         /// Print the tree in reverse polish notation, e.g. "2 3 +".
-        virtual std::ostream&
-        print_rpol(std::ostream&, const base_t&) const
+        std::ostream&
+        print_rpol(std::ostream& out, const base_t& b) const override
         {
-            num_->print(out, b);
+            node_->print_rpol(out, b);
             if (op_ == OpType::MINUS)
                 out << '-';
             return out;
@@ -65,16 +72,12 @@ namespace bistro
         }
         
         /// Evaluate the tree and return a shared_pointer to the result.
-        virtual num_t eval() const
+        virtual num_t eval() const override
         {
-            auto eval = node_->eval();
-            num_t eval_ptr = std::make_shared<eval>;
-            return eval_ptr
-            
+            return node_->eval();
         }
     private:
         node_t node_;
-        num_t num_;
         OpType op_;
     };
     

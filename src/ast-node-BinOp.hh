@@ -10,7 +10,6 @@
 
 #include "ast-node.hh"
 #include "ast-factory.hh"
-#include "ast-factory.hh"
 
 
 namespace bistro
@@ -33,35 +32,85 @@ namespace bistro
         
         using node_t = std::shared_ptr<ASTNode<BigNum, Base>>;
 
-        /// Type of a node in the AST.
-        /// Keep in mind you should be able to add/delete those.
-        virtual ~ASTNode();
-        
+        BinOpNode(const node_t left, const node_t right, OpType op)
+            :left_node_(left)
+            ,right_node_(right)
+            ,op_(op)
+        {
+        }
         /// Print the tree in infix notation, e.g. "(2+3)".
-        virtual std::ostream&
-        print_infix(std::ostream& out, const base_t& b) const = 0;
+        std::ostream&
+        print_infix(std::ostream& out, const base_t& b) const
+        {
+            std::cout << '(';
+            right_node_->print_infix(out, b);
+            if (op_ == OpType::MINUS)
+                out << '-';
+            if (op_ == OpType::PLUS)
+                out << '+';
+            if (op_ == OpType::DIVIDE)
+                out << '/';
+            if (op_ == OpType::TIMES)
+                out << '*';
+            right_node_->print_infix(out, b);
+            std::cout << ')';
+
+            return out;
+            
+        }
         
         /// Print the tree in polish notation, e.g. "+ 2 3".
-        virtual std::ostream&
-        print_pol(std::ostream&, const base_t&) const
+        std::ostream&
+        print_pol(std::ostream& out, const base_t& b) const
         {
-            throw "Not implemented";
+            if (op_ == OpType::MINUS)
+                out << '-';
+            if (op_ == OpType::PLUS)
+                out << '+';
+            if (op_ == OpType::DIVIDE)
+                out << '/';
+            if (op_ == OpType::TIMES)
+                out << '*';
+            right_node_->print_pol(out, b);
+            right_node_->print_pol(out, b);
+            return out;
+            
         }
         
         /// Print the tree in reverse polish notation, e.g. "2 3 +".
-        virtual std::ostream&
-        print_rpol(std::ostream&, const base_t&) const
+        std::ostream&
+        print_rpol(std::ostream& out, const base_t& b) const
         {
-            throw "Not implemented";
+            if (op_ == OpType::MINUS)
+                out << '-';
+            if (op_ == OpType::PLUS)
+                out << '+';
+            right_node_->print_pol(out, b);
+            right_node_->print_pol(out, b);
+            if (op_ == OpType::MINUS)
+                out << '-';
+            if (op_ == OpType::PLUS)
+                out << '+';
+            if (op_ == OpType::DIVIDE)
+                out << '/';
+            if (op_ == OpType::TIMES)
+                out << '*';
+            
+            return out;
+            
         }
         
         /// Evaluate the tree and return a shared_pointer to the result.
-        virtual num_t eval() const = 0;
+        num_t eval() const
+        {
+            auto right_eval = right_node_->eval();
+            auto left_eval = left_node_->eval();
+            return std::make_shared<BigNum>(*(left_eval.get()) + *(right_eval.get()));
+        }
     private:
         
-        node_t node_;
-        num_t right_num_;
-        num_t left_num_;
+        node_t left_node_;
+        node_t right_node_;
         OpType op_;
     };
     

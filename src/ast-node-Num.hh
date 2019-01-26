@@ -13,7 +13,7 @@
 namespace bistro
 {
     template <typename BigNum, typename Base>
-    class BinOpNode: public ASTNode <BigNum, Base>
+    class NumberNode: public ASTNode <BigNum, Base>
     {
     public:
         
@@ -26,36 +26,47 @@ namespace bistro
         /// Shared_ptr to a BigNum.
         using num_t = std::shared_ptr<BigNum>;
         
-        using node_t = std::shared_ptr<ASTNode<BigNum, Base>>;
+        using self_t = NumberNode;
 
         /// Type of a node in the AST.
         /// Keep in mind you should be able to add/delete those.
         using node_t = std::shared_ptr<ASTNode<BigNum, Base>>;
 
-        virtual ~ASTNode();
-        
+        NumberNode(const num_t num)
+            : num_(num) 
+        {
+        }
         /// Print the tree in infix notation, e.g. "(2+3)".
-        virtual std::ostream&
-        print_infix(std::ostream& out, const base_t& b) const = 0;
+        std::ostream&
+        print_infix(std::ostream& out, const base_t& b) const override
+        {
+            num_->print(out, b);
+            return out;
+        }
         
         /// Print the tree in polish notation, e.g. "+ 2 3".
-        virtual std::ostream&
-        print_pol(std::ostream&, const base_t&) const
+        std::ostream&
+        print_pol(std::ostream& out, const base_t& b) const override
         {
-            throw "Not implemented";
+            num_->print(out, b);
+            return out;
+    
         }
         
         /// Print the tree in reverse polish notation, e.g. "2 3 +".
-        virtual std::ostream&
-        print_rpol(std::ostream&, const base_t&) const
+        std::ostream&
+        print_rpol(std::ostream& out, const base_t& b) const override
         {
-            throw "Not implemented";
+            num_->print(out, b);
+            return out;
         }
         
         /// Evaluate the tree and return a shared_pointer to the result.
-        virtual num_t eval() const = 0;
+        num_t eval() const override
+        {
+            return num_;
+        }
     private:
-        node_t node_;
         num_t num_;
     };
     
